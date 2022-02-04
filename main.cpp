@@ -1,20 +1,4 @@
-#include <iostream>
-#include <vector>
-
-#include "vector.h"
 #include "LCS.h"
-
-// longest common subsequence
-int lcs(std::vector<int>& l, std::vector<int>& r, int lIdx, int rIdx) {
-    // idx == -1 => end of check
-    if (lIdx == -1 || rIdx == -1) { return 0; }
-    // val's == => add one, return and decrement both
-    if (l[lIdx] == r[rIdx]) { return lcs(l, r, lIdx - 1, rIdx - 1) + 1; }
-    // return greater of two
-    int lhs = lcs(l, r, lIdx - 1, rIdx);
-    int rhs = lcs(l, r, lIdx, rIdx - 1);
-    return (lhs > rhs) ? lhs : rhs;
-}
 
 int main() {
     std::vector<int> l;
