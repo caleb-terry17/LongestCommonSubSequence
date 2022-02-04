@@ -1,6 +1,9 @@
 #include <iostream>
 #include <vector>
 
+#include "vector.h"
+#include "LCS.h"
+
 // longest common subsequence
 int lcs(std::vector<int>& l, std::vector<int>& r, int lIdx, int rIdx) {
     // idx == -1 => end of check
@@ -25,5 +28,6 @@ int main() {
     // l[14] = 31;
     // r[3] = 6;
     l[0] = 1;
+    std::cout << l << std::endl;
     std::cout << lcs(l, r, len - 1, len - 1) << std::endl;
 }
