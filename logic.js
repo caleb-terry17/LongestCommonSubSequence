@@ -1,3 +1,6 @@
+// a, b, c, c, c, d, e, f, a, b
+// b, c, c, e, c, a, f, b
+
 // document tags to display compare values
 let tag1 = document.getElementById("tag1");
 let tag2 = document.getElementById("tag2");
@@ -87,12 +90,15 @@ function fillAry(lLen, rLen) {
 
 // sets the idx's that no longer need to be seen in the lcsAry
 function updateSeen(lIdx, rIdx) {
-    for (let i = lIdx; i < lcsRow; ++i) {
-        lcsAry[i][rIdx] = 1;
-    }
-    for (let i = rIdx + 1; i < lcsCol; ++i) {
-        lcsAry[lIdx][i] = 1;
-    }
+    lcsAry[lIdx][rIdx] = 1;
+    if (lIdx + 1 < lcsRow) { lcsAry[lIdx + 1][rIdx] = 1; }
+    if (rIdx + 1 < lcsCol) { lcsAry[lIdx][rIdx + 1] = 1; }
+    // for (let i = lIdx; i < lcsRow; ++i) {
+    //     lcsAry[i][rIdx] = 1;
+    // }
+    // for (let i = rIdx + 1; i < lcsCol; ++i) {
+    //     lcsAry[lIdx][i] = 1;
+    // }
 }
 
 // longest common subsequence dynamic approach
