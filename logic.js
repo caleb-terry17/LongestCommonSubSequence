@@ -60,21 +60,20 @@ function lcs(l, r, lIdx, rIdx) {
     return total;
 }
 
-let iterDyn = 0;  // iterations for dynIter
-let lcsAry = [[]];
-let lcsRow;  // lhs len
-let lcsCol;  // rhs len
-
+///////////////////
+// dynamic approach to lcs
+///////////////////
 // creates array for lcsDyn
 function fillAry(list1, list2, lLen, rLen) {
-    // set globals
-    lcsRow = lLen + 1;
-    lcsCol = rLen + 1;
+    // construct array
+    let ary = [[]];
+    let lcsRow = lLen + 1;
+    let lcsCol = rLen + 1;
     // fill with 0's
     for (let i = 0; i < lcsRow; i++) {
-        lcsAry[i] = [];
+        ary[i] = [];
         for (let j = 0; j < lcsCol; ++j) {
-            lcsAry[i][j] = 0;
+            ary[i][j] = 0;
         }
     }
     // update values according to matches
@@ -82,19 +81,22 @@ function fillAry(list1, list2, lLen, rLen) {
         for (let j = 0; j < lcsCol; ++j) {
             if (i == 0 || j == 0) { continue; }
             // i == j
-            if (list1[i - 1] == list2[j - 1]) { lcsAry[i][j] = lcsAry[i - 1][j - 1] + 1; }
+            if (list1[i - 1] == list2[j - 1]) { ary[i][j] = ary[i - 1][j - 1] + 1; }
             // i != j
             else {
-                let l = lcsAry[i][j - 1];
-                let r = lcsAry[i - 1][j];
-                lcsAry[i][j] = l > r ? l : r;
+                let l = ary[i][j - 1];
+                let r = ary[i - 1][j];
+                ary[i][j] = l > r ? l : r;
             }
         }
     }
+    return ary;
 }
 
 // longest common subsequence dynamic approach
 function lcsDyn(l, r, lIdx, rIdx) {
+    let iter = 0;  // iterations for dynIter
+    let lcsAry = fillAry(l, r, lIdx, rIdx);  // filling array with paths dynamically
     let z = [];  // final list of lcs
     while (lIdx >= 0 && rIdx >= 0) {
         // i == j => push to list
@@ -107,28 +109,14 @@ function lcsDyn(l, r, lIdx, rIdx) {
         } else {
             lIdx--;
         }
-        iterDyn++;
+        iter++;
     }
-    return z.reverse();
+    return {"iter": iter, "z": z.reverse()};
 }
 
-function printIter() {
-    console.log("iter: " + iter);
-    console.log("iterDyn: " + iterDyn);
-}
-
-function printAry(ary) {
-    for (let i = 0; i < ary.length; ++i) {
-        str = "[";
-        for (let j = 0; j < ary[i].length; ++j) {
-            str += ary[i][j] + ", ";
-        }
-        str += "]";
-        console.log(str);
-    }
-}
-
+///////////////////
 // testing
+///////////////////
 // runs a single test case given two string inputs (comma delimited) 
 function test(list1, list2) {
     console.log(list1);
@@ -137,13 +125,10 @@ function test(list1, list2) {
     list2 = list2.replace(" ", "");
     list1 = list1.split(",");
     list2 = list2.split(",");
-    console.log("lcs: " + lcs(list1, list2, list1.length - 1, list2.length - 1));
-    console.log("iter: " + iter);
+    console.log("lcs: " + lcs(list1, list2, list1.length - 1, list2.length - 1) + "|" + iter);
     fillAry(list1, list2, list1.length, list2.length);
-    //console.log("lcsDyn: " + lcsDyn(list1, list2, list1.length, list2.length));
     z = lcsDyn(list1, list2, list1.length - 1, list2.length - 1);
-    console.log("lcsDyn: " + z.length + " | " + z);
-    console.log("iterDyn: " + iterDyn);
+    console.log("lcsDyn: " + z.z.length + "|" + z.iter + "|" + z.z);
     console.log("\n");
 }
 
@@ -152,8 +137,6 @@ function runTests() {
     let list1, list2;
 
     // test 1
-    iter = 0;
-    iterDyn = 0;
     list1 = "a, b, c, c, c, d, e, f, a, b";
     list2 = "b, c, c, e, c, a, f, b";
     test(list1, list2);
