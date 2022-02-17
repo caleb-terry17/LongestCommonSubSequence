@@ -19,17 +19,59 @@
     <!--about/intro-->
     <div class="container">
         <h1>LCS: Longest Common Subsequence</h1>
+        <p>The LCS for two given sequences is defined as the largest sequence such that it is a subsequence of the two sequences.</p>
 
-        <p>The LCS is...description</p>
+        <br>
+
+        <!--what's a sequence-->
+        <h3>What's a Sequence?</h3>
+        <p>A sequnce is a set of ordered characters.</p>
+
+        <br>
+
+        <!--what's a subsequence-->
+        <h3>What's a Subsequence?</h3>
+        <p>
+            A subsequence is a portion of an original sequence that satisfies the given property:
+            <br>
+            For a sequence X = {x1, x2, ..., xn}, any subsequence Y derived from X, for any two elements xi, xj, if xi appears before xj in X, then xi must also appear before xj in Y.
+        </p>
+    </div>
+
+    <!--approaches-->
+    <div class="container">
+        <h1>Approaches</h1>
+
+        <br>
+
+        <!--brute force-->
+        <h3>Brute Force</h3>
+        <p>The straight forward method is to try all the different possible combinations of letters between the two sequences. This would result </p>
+        
+        <br>
+
+        <!--recursion-->
+        <h3>Recursion</h3>
+        <p></p>
+        
+        <br>
+
+        <!--dynamic-->
+        <h3>Dynamic Programming</h3>
+        <p></p>
     </div>
 
     <!--input text box-->
     <div class="container">
+        <h1>Try It!</h1>
+        
+        <br>
+
         <label for="list1">List 1:</label>
         <input type="text" id="list1" name="list1"><br><br>
         <label for="list2">List 2:</label>
         <input type="text" id="list2" name="list2"><br><br>
-        <button onclick="getInput()">
+        <button onclick="computeLCS()">
             Find LCS
         </button>    
     </div>

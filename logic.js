@@ -11,7 +11,7 @@ let yellow = "#FFFF00";
 let red = "FF0000";
 let white = "#FFF";
 
-function getInput() {
+function computeLCS() {
     // // get input from list1, list2
     // let str1 = document.getElementById("list1").value;
     // let str2 = document.getElementById("list2").value;
