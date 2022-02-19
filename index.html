@@ -7,7 +7,7 @@
     <title>Longest Common Subsequence</title>
 
     <!--website icon-->
-    <link rel="shortcut icon" href="websiteIcon.png" type="image/png">
+    <link rel="shortcut icon" href="./images/websiteIcon.png" type="image/png">
 
     <!--local css imports-->
     <link rel="stylesheet" href="index.css">  <!--styling specific to index.html-->
@@ -19,7 +19,13 @@
     <!--about/intro-->
     <div class="container">
         <h1>LCS: Longest Common Subsequence</h1>
-        <p>The longest common subsequence for two sequences is defined as the largest sequence such that it is a subsequence of both sequences.</p>
+        <p>
+            &nbsp;&nbsp;&nbsp;&nbsp; The longest common subsequence for two sequences is defined as the largest sequence such that it is a subsequence of both sequences.
+
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp; It is worth noting that the longest common subsequence for two sequences is NOT unique, but its length is!
+        </p>
 
         <br>
 
@@ -37,15 +43,15 @@
             <br>
             <br>
 
-            For a sequence X = {x1, x2, ..., xn}, a sequence Y is a subsequence of X if
+            For a sequence X = {x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>}, a sequence Y is a subsequence of X if
 
             <br>
             
-            1. Every element that appears in Y also appears in X as well. 
+            &nbsp;&nbsp;&nbsp;&nbsp; 1. Every element that appears in Y also appears in X as well. 
             
             <br>
 
-            2. For any two elements xi, xj in X, if xi appears before xj in X, then xi must also appear before xj in Y.
+            &nbsp;&nbsp;&nbsp;&nbsp; 2. For any two elements x<sub>i</sub>, x<sub>j</sub> in X, if x<sub>i</sub> appears before x<sub>j</sub> in X, then x<sub>i</sub> must also appear before x<sub>j</sub> in Y.
         </p>
 
         <br>
@@ -86,19 +92,45 @@
 
         <!--brute force-->
         <h3>Brute Force</h3>
-        <p>The straight forward method is to try all the different possible combinations of letters between the two sequences. This would result </p>
+        <p>
+            &nbsp;&nbsp;&nbsp;&nbsp; The straight forward method is to try all the different possible combinations of letters between the two sequences. For a sequence X = {x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>m</sub>}, there would be over 2<sup>m</sup> possible subsequences for this sequence X. 
+
+            <br>
+            
+            &nbsp;&nbsp;&nbsp;&nbsp; You would have to compute all of these different subsequences for both of the sequences and then compare them to find the longest one. 
+        </p>
         
         <br>
 
         <!--recursion-->
         <h3>Recursion</h3>
-        <p></p>
+        <p>
+            &nbsp;&nbsp;&nbsp;&nbsp; A nicely designed recursive algorithm can speed things up quite a bit. The idea is to look at the two sequences character by character from the end. 
+
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp; Let X<sub>m</sub> = {x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>m</sub>}, Y<sub>n</sub> = {y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>}, and Z<sub>k</sub> = {z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>k</sub>} where Z<sub>k</sub> is the LCS of X<sub>m</sub> and Y<sub>n</sub> with k being the length of the LCS.
+        
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp; The idea is if x<sub>m</sub> = y<sub>n</sub>, then you have potentially found a character that is apart of the LCS. Add x<sub>m</sub> to Z<sub>k</sub> and run the function again where X<sub>m</sub> = X<sub>m-1</sub> and Y<sub>n</sub> = Y<sub>n-1</sub>.
+            
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp; However, if x<sub>m</sub> &ne; y<sub>n</sub>, you must run the function again with both possible outcomes. Where X<sub>m</sub> = X<sub>m-1</sub>, Y<sub>n</sub> = Y<sub>n</sub> and X<sub>m</sub> = X<sub>m</sub>, Y<sub>n</sub> = Y<sub>n-1</sub>. Since we're calling the function again, we will get possibly two different outcomes from each function. Which ever one returns the longest Z<sub>k</sub> is the one we return from our current function. This process will continue up the tree of function calls until you finally arive at the original function call with the LCS.
+            
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp; But how does it know when to stop calling the function? The base case for this is when you pass either an empty X<sub>m</sub> or an empty Y<sub>n</sub>. In other words, when m = 0 or when n = 0. We then return an empty Z<sub>k</sub> which the previous functions will add to this empty list all the way to the original callee. 
+        </p>
         
         <br>
 
         <!--dynamic-->
         <h3>Dynamic Programming</h3>
-        <p></p>
+        <p>
+
+        </p>
     </div>
 
     <!--input text box-->

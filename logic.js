@@ -117,6 +117,12 @@ function computeLCS() {
     let str1 = document.getElementById("list1").value;
     let str2 = document.getElementById("list2").value;
 
+    // checking for too large of input
+    if (str1.length > 100 || str2.length > 100) {
+        lcsOut.innerHTML = "<h3>Input Too Large (>100)</h3>";
+        return; 
+    }
+
     // remove all whitespace
     str1 = str1.split(" ").join("");
     str2 = str2.split(" ").join("");
@@ -132,7 +138,7 @@ function computeLCS() {
     // constructing output
     let recStr = listToString(recursive.list);
     let dynStr = listToString(dynamic.list);
-    let recTag = `<h3>Recursive Approach:</h3> <p>Function Iterations: ${recursive.iter}</p> <p>LCS: ${recStr}</p> <p>Length: ${recursive.list.length}</p>`
-    let dynTag = `<h3>Dynamic Approach:</h3> <p>Loop Iterations: ${dynamic.iter}</p> <p>LCS: ${dynStr}</p> <p>Length: ${dynamic.list.length}</p>`
+    let recTag = `<h3>Recursive Approach:</h3> <p>Function Iterations: ${recursive.iter}</p> <p>LCS: ${recStr}</p> <p>Length: ${recursive.list.length}</p>`;
+    let dynTag = `<h3>Dynamic Approach:</h3> <p>Loop Iterations: ${dynamic.iter}</p> <p>LCS: ${dynStr}</p> <p>Length: ${dynamic.list.length}</p>`;
     lcsOut.innerHTML = recTag + "<br>" + dynTag;
 }
