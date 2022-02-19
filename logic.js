@@ -1,30 +1,7 @@
 // document tags to display compare values
 let tag1 = document.getElementById("tag1");
 let tag2 = document.getElementById("tag2");
-let lcsOut = document.getElementById("lcsOutput");
-
-function computeLCS() {
-    // get input from list1, list2
-    let str1 = document.getElementById("list1").value;
-    let str2 = document.getElementById("list2").value;
-
-    // remove all whitespace
-    str1 = str1.split(" ").join("");
-    str2 = str2.split(" ").join("");
-
-    // split by ,
-    let list1 = str1.split(",");
-    let list2 = str2.split(",");
-
-    // running methods and outputting data
-    let recursive = lcsRec(list1, list2, list1.length - 1, list2.length - 1);
-    let dynamic = lcsDyn(list1, list2, list1.length - 1, list2.length - 1);
-
-    console.log(recursive.list);
-    console.log(dynamic.list);
-
-    lcsOut.innerHTML = "The Longest Common Subsequence is: " + dynamic.list;
-}
+let lcsOut = document.getElementById("lcsOut");
 
 // longest common subsequence
 function lcsRec(l, r, lIdx, rIdx) {
@@ -32,6 +9,8 @@ function lcsRec(l, r, lIdx, rIdx) {
 
     // recursive function to run lcs algorithm
     function lcs(l, r, lIdx, rIdx) {
+        iter++;
+
         // idx == -1 => end of check
         if (lIdx == -1 || rIdx == -1) { return {"len": 0, "list": []}; }
 
@@ -49,7 +28,6 @@ function lcsRec(l, r, lIdx, rIdx) {
             obj = (lhs.len > rhs.len) ? lhs : rhs;
         }
 
-        iter++;
         return obj;
     }
 
@@ -64,20 +42,25 @@ function lcsRec(l, r, lIdx, rIdx) {
 ///////////////////
 // creates array for lcsDyn
 function fillAry(list1, list2, lLen, rLen) {
+    // count number of iterations
+    let iter = 0;
+
     // construct array and fill with 0's
     let ary = [[]];
     let lcsRow = lLen + 1;
     let lcsCol = rLen + 1;
-    for (let i = 0; i <= lcsRow; i++) {
-        ary[i] = [];
-        for (let j = 0; j <= lcsCol; ++j) {
-            ary[i][j] = 0;
-        }
-    }
 
     // update values according to matches
-    for (let i = 1; i <= lcsRow; ++i) {
-        for (let j = 1; j <= lcsCol; ++j) {
+    for (let i = 0; i <= lcsRow; ++i) {
+        // adding column to array
+        ary[i] = [];
+        for (let j = 0; j <= lcsCol; ++j) {
+            iter++;
+
+            if (i == 0 || j == 0) {
+                ary[i][j] = 0;
+                continue;
+            }
             // i == j
             if (list1[i - 1] == list2[j - 1]) { ary[i][j] = ary[i - 1][j - 1] + 1; }
             // i != j
@@ -89,16 +72,19 @@ function fillAry(list1, list2, lLen, rLen) {
         }
     }
 
-    return ary;
+    return {"iter": iter, "ary": ary};
 }
 
 // longest common subsequence dynamic approach
 function lcsDyn(l, r, lIdx, rIdx) {
-    let iter = 0;  // iterations for dynIter
-    let lcsAry = fillAry(l, r, lIdx, rIdx);  // filling array with paths dynamically
+    let lcs = fillAry(l, r, lIdx, rIdx);  // filling array with paths dynamically
+    let lcsAry = lcs.ary;
+    let iter = lcs.iter;  // iterations for dynIter
     let z = [];  // final list of lcs
 
     while (lIdx >= 0 && rIdx >= 0) {
+        iter++;
+
         // i == j => push to list
         if (l[lIdx] == r[rIdx]) { 
             z.push(l[lIdx]); 
@@ -109,8 +95,44 @@ function lcsDyn(l, r, lIdx, rIdx) {
         } else {
             lIdx--;
         }
-        iter++;
     }
 
     return {"iter": iter, "list": z.reverse()};
+}
+
+// converts a list into a nice string to output
+function listToString(list) {
+    let len = list.length;
+    let str = "";
+    for (let i = 0; i < len; ++i) {
+        str += list[i];
+        str += (i < len - 1) ? ", " : "";
+    }
+    return str;
+}
+
+// called by html button, computes and outputs lcs
+function computeLCS() {
+    // get input from list1, list2
+    let str1 = document.getElementById("list1").value;
+    let str2 = document.getElementById("list2").value;
+
+    // remove all whitespace
+    str1 = str1.split(" ").join("");
+    str2 = str2.split(" ").join("");
+
+    // separate by ,
+    let list1 = str1.split(",");
+    let list2 = str2.split(",");
+
+    // running methods and outputting data
+    let recursive = lcsRec(list1, list2, list1.length - 1, list2.length - 1);
+    let dynamic = lcsDyn(list1, list2, list1.length - 1, list2.length - 1);
+
+    // constructing output
+    let recStr = listToString(recursive.list);
+    let dynStr = listToString(dynamic.list);
+    let recTag = `<h3>Recursive Approach:</h3> <p>Function Iterations: ${recursive.iter}</p> <p>LCS: ${recStr}</p> <p>Length: ${recursive.list.length}</p>`
+    let dynTag = `<h3>Dynamic Approach:</h3> <p>Loop Iterations: ${dynamic.iter}</p> <p>LCS: ${dynStr}</p> <p>Length: ${dynamic.list.length}</p>`
+    lcsOut.innerHTML = recTag + "<br>" + dynTag;
 }
