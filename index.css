@@ -17,3 +17,7 @@
 .box {
     background-color: var(--color2);
 }
+
+.text {
+    color: var(--color1);
+}

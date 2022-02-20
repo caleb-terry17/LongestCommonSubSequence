@@ -1,8 +1,14 @@
+///////////////////
+// globals
+///////////////////
 // document tags to display compare values
 let tag1 = document.getElementById("tag1");
 let tag2 = document.getElementById("tag2");
 let lcsOut = document.getElementById("lcsOut");
 
+///////////////////
+// recursive approach to lcs
+///////////////////
 // longest common subsequence
 function lcsRec(l, r, lIdx, rIdx) {
     let iter = 0;  // iterations for lcs
